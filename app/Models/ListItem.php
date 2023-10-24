@@ -14,4 +14,11 @@ class ListItem extends Model
         'nacimiento',
         'ingresos',
     ];
+
+    static $rules = [
+        'nombre' => 'required',
+        'max:50',
+        'nacimiento' => 'required',
+        'ingresos' => 'unique:numeric',
+    ];
 }

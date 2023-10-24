@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListItemController;
+use App\Http\Controllers\ViajeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,7 +30,15 @@ Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])
             return view('home');
         })->name('sarasa');
 
-    Route::resource('list', ListItemController::class);
+    Route::get('/viajes', [ViajeController::class, 'index'])
+        ->name('viaje.index');
 
+    Route::get('/viaje/create', [ViajeController::class, 'create'])
+        ->name('viaje.create');
 
+    Route::post('/viaje', [ViajeController::class, 'store'])
+        ->name('viaje.store');
+
+    Route::post('/viaje/{id}', [ViajeController::class, 'show'])
+        ->name('viaje.show');
 });

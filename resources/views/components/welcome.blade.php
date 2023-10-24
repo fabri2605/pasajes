@@ -1,9 +1,10 @@
 <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
     <x-application-logo class="block h-12 w-auto" />
 
-
-    @livewire('file-form')
-
+    <div class="mt-8">
+        <a href="{{route('viaje.create')}}"><x-button>Create Trips</x-button></a>
+        <a href="{{route('viaje.index')}}"><x-button>Show Trips</x-button></a>
+    </div>
 
     <a href="/sarasa">
         <h1 class="mt-8 text-2xl font-medium text-gray-900">
@@ -11,7 +12,7 @@
         </h1>
     </a>
 
-    <a href="/list">
+    <a href={{ route('viaje.create') }}>
         <h1 class="mt-8 text-2xl font-medium text-gray-900">
             See the lastest exels on your application!
         </h1>
