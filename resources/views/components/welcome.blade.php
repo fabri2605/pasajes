@@ -12,12 +12,6 @@
         </h1>
     </a>
 
-    <a href={{ route('viaje.create') }}>
-        <h1 class="mt-8 text-2xl font-medium text-gray-900">
-            See the lastest exels on your application!
-        </h1>
-    </a>
-
     <p class="mt-6 text-gray-500 leading-relaxed">
         Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is
         designed

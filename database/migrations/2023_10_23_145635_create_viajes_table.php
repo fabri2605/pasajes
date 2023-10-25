@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->float('TARIFA', 6);
             $table->integer('IMPORTE');
             $table->string('TRAMO', 40);
-            $table->date('FECHA');
+            $table->datetime('FECHA')->unique();
             $table->integer('LATITUD');
             $table->integer('LONGITUD');
             $table->timestamps();

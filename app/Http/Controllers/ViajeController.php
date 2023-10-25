@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateViajeRequest;
 use App\Models\Viaje;
 use App\Models\ExcelData;
 use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use PHPExcel_Shared_Date;
@@ -37,9 +38,23 @@ class ViajeController extends Controller
      */
     public function store(Request $request)
     {
-        $file = request()->file('insertedExel');
 
-        $excelData = Excel::toCollection(new ExcelData, $file);
+        $request->validate([
+            'insertedExel' => 'required|file|mimes:xls,xlsx',
+        ], [
+            'insertedExel.mimes' => 'Only Excel files (xls and xlsx) are allowed.',
+        ]);
+
+        try{
+
+            $file = request()->file('insertedExel');
+
+            $excelData = Excel::toCollection(new ExcelData, $file);
+
+        }catch(Exception $e){
+            throw new Exception('Problema con el exel');
+        }
+
 
         $enters = [];
 
