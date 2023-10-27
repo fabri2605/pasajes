@@ -38,26 +38,21 @@ class ViajeController extends Controller
      */
     public function store(Request $request)
     {
-
-        $request->validate([
-            'insertedExel' => 'required|file|mimes:xls,xlsx',
+        /* echo '<pre>';
+        echo var_dump($e->getMessage());
+        echo '<pre>'; */
+        /* $request->validate([
+            'insertedExel' => 'required|file|mimes:xls,xlsx,xlsm',
         ], [
-            'insertedExel.mimes' => 'Only Excel files (xls and xlsx) are allowed.',
-        ]);
+            'insertedExel.mimes' => 'Only Excel files (xls , xlsx and xlsm) are allowed.',
+        ]); */
 
-        try{
+        $file = request()->file('insertedExel');
 
-            $file = request()->file('insertedExel');
-
-            $excelData = Excel::toCollection(new ExcelData, $file);
-
-        }catch(Exception $e){
-            throw new Exception('Problema con el exel');
-        }
-
+        $excelData = Excel::toCollection(new ExcelData, $file);
 
         $enters = [];
-
+        $errorValues = [];
         $active = 0;
 
         foreach ($excelData[0] as $data) {
@@ -94,10 +89,16 @@ class ViajeController extends Controller
                     'LONGITUD' => $data[9],
                 ]);
 
-                $someData->save();
-
-                $enters[] = $someData;
+                try {
+                    $someData->save();
+                    $enters[] = $someData;
+                } catch (Exception $e) {
+                    $errorValues[] = $someData;
+                }
             }
+        }
+        if (count($errorValues) > 0) {
+            return redirect()->back()->with('error', $errorValues);
         }
 
         return redirect()->back()->with('answer', 'File uploaded and saved successfully.');
