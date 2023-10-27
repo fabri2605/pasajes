@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
 
 
-                <form class="mt-8 mx-3 pb-3 px-3" enctype="multipart/form-data" class="mt-8" method="post"
+                <form id="exelForm" class="mt-8 mx-3 pb-3 px-3" enctype="multipart/form-data" class="mt-8" method="post"
                     action="{{ route('viaje.store') }}">
                     {{ csrf_field() }}
 
@@ -40,9 +40,9 @@
 
                     <p id="uploadedFileName" class="text-center text-gray-500 dark:text-gray-400"></p>
 
-                    <div hidden id="cargando" style="color: rgba(93, 0, 255, 0.579)"
+                    <div id="cargando" style="color: rgba(93, 0, 255, 0.579); display: none; transition: 1s"
                         class="text-center ease-in-out duration-300 mt-8 text-info-500">Cargando los registros por favor
-                        espere (tiempo estimado 1 min cada 812 registros)</div>
+                        espere (tiempo estimado 1 min)</div>
 
                     @error('insertedExel')
                         <div class="ease-in-out duration-300 mt-8 text-red-500">{{ $message }}</div>

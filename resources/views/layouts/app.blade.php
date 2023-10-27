@@ -52,23 +52,33 @@
 
     <script type="text/JavaScript">
         document.addEventListener('DOMContentLoaded', function () {
-                const fileInput = document.getElementById('dropzone-file');
-                const cargarButton = document.getElementById('cargarButton');
-                const uploadedFileName = document.getElementById('uploadedFileName');
+                            const fileInput = document.getElementById('dropzone-file');
+                            const cargarButton = document.getElementById('cargarButton');
+                            const uploadedFileName = document.getElementById('uploadedFileName');
+                            const cargando = document.getElementById('cargando');
+                            const exelForm = document.getElementById('exelForm');
 
-                fileInput.addEventListener('change', function () {
-                    const files = fileInput.files;
+                            fileInput.addEventListener('change', function () {
+                                const files = fileInput.files;
 
-                    if (files.length > 0) {
-                        uploadedFileName.textContent = files[0].name;
-                        cargarButton.disabled = false;
-                    } else {
-                        uploadedFileName.textContent = '';
-                        cargarButton.disabled = true;
-                    }
-                });
-            });
-        </script>
+                                if (files.length > 0) {
+                                    uploadedFileName.textContent = files[0].name;
+                                    cargarButton.disabled = false;
+                                } else {
+                                    uploadedFileName.textContent = '';
+                                    cargarButton.disabled = true;
+                                }
+                            });
+
+                            cargarButton.addEventListener('click', function () {
+                                if (cargando.style.display === "none") {
+                                    cargando.style.display = "block";
+                                }
+                                cargarButton.disabled = true;
+                                exelForm.submit();
+                            });
+                        });
+                    </script>
 </body>
 
 </html>
