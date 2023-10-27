@@ -22,6 +22,7 @@ class Viaje extends Model
         'TRAMO' => 'required',
         'max:40',
         'FECHA' => 'required',
+        'HORA' => 'required',
         'LATITUD' => 'required|numeric',
         'LONGITUD' => 'required|numeric',
     ];
@@ -35,6 +36,7 @@ class Viaje extends Model
         'IMPORTE',
         'TRAMO',
         'FECHA',
+        'HORA',
         'LATITUD',
         'LONGITUD'
     ];

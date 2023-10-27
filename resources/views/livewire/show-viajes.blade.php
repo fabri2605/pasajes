@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div style="margin: 0 20px;" class="mx-auto {{-- max-w-7xl  sm:px-6 lg:px-8 --}}">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="mt-8 pb-3">
 
@@ -38,6 +38,9 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Fecha
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Hora
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Latitud
@@ -79,6 +82,9 @@
                                             {{ $viaje->FECHA }}
                                         </td>
                                         <td class="px-6 py-4">
+                                            {{ $viaje->HORA }}
+                                        </td>
+                                        <td class="px-6 py-4">
                                             {{ $viaje->LATITUD }}
                                         </td>
                                         <td class="px-6 py-4">
@@ -95,6 +101,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{-- Pagination --}}
+                        <div class="ml-3 mr-3 mt-3 d-flex justify-content-center">
+                            {!! $viajes->links() !!}
+                        </div>
                     @else
                         <h1 class="text-center text-2xl font-medium text-gray-900">No hay viajes disponibles!</h1>
 

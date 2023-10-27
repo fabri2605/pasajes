@@ -20,25 +20,25 @@ Route::get('/', function () {
 });
 
 
-Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',])->group(function () {
 
     Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        return view('dashboard');
+    })->name('dashboard');
 
     Route::get('/sarasa', function () {
-            return view('home');
-        })->name('sarasa');
+        return view('home');
+    })->name('sarasa');
 
     Route::get('/viajes', [ViajeController::class, 'index'])
         ->name('viaje.index');
 
-    Route::get('/viaje/create', [ViajeController::class, 'create'])
-        ->name('viaje.create');
-
     Route::post('/viaje', [ViajeController::class, 'store'])
         ->name('viaje.store');
 
-    Route::post('/viaje/{id}', [ViajeController::class, 'show'])
+    Route::get('/viaje/create', [ViajeController::class, 'create'])
+        ->name('viaje.create');
+
+    Route::get('/viaje/{id}', [ViajeController::class, 'show'])
         ->name('viaje.show');
 });

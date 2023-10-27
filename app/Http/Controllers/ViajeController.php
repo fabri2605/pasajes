@@ -6,6 +6,7 @@ use App\Http\Requests\StoreViajeRequest;
 use App\Http\Requests\UpdateViajeRequest;
 use App\Models\Viaje;
 use App\Models\ExcelData;
+use Carbon\Carbon;
 use DateTime;
 use Exception;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class ViajeController extends Controller
      */
     public function index()
     {
-        $viajes = Viaje::all();
-        return view('livewire.show-viajes', ['viajes' => $viajes]);
+        $viajes = Viaje::orderBy('FECHA', 'desc')->orderBy('HORA', 'desc')->paginate(20);
+        return view('livewire.show-viajes', ['viajes' => Viaje::orderBy('FECHA', 'desc')->paginate(20)]);
     }
 
     /**
@@ -38,70 +39,73 @@ class ViajeController extends Controller
      */
     public function store(Request $request)
     {
-        /* echo '<pre>';
-        echo var_dump($e->getMessage());
-        echo '<pre>'; */
-        /* $request->validate([
+        $request->validate([
             'insertedExel' => 'required|file|mimes:xls,xlsx,xlsm',
         ], [
             'insertedExel.mimes' => 'Only Excel files (xls , xlsx and xlsm) are allowed.',
-        ]); */
+        ]);
 
         $file = request()->file('insertedExel');
 
         $excelData = Excel::toCollection(new ExcelData, $file);
 
-        $enters = [];
-        $errorValues = [];
-        $active = 0;
+        // Define the batch size (adjust as needed)
+        $batchSize = 100;
+        $bulkInsertData = [];
+        $skipHeaders = true;
 
         foreach ($excelData[0] as $data) {
-
-            // Reading titles
-            if ($active === 0 && $data[0] === 'Evento') {
-
-                $active++;
-                continue;
-
-            } elseif ($active === 1) {
-
-                // If there is no more data
-                if (is_null($data[0]))
-                    break;
-
-                // Parsing the Date
-                $data[7] = PHPExcel_Shared_Date::ExcelToPHP($data[7]);
-
-                $formatedDate = date("d/m/Y H:i", $data[7]);
-
-                $formatedDateTime = DateTime::createFromFormat('d/m/Y H:i', $formatedDate);
-
-                $someData = new Viaje([
-                    'EVENTO' => $data[0],
-                    'CUIL' => $data[1],
-                    'TARJETA' => $data[2],
-                    'CANTIDAD' => $data[3],
-                    'TARIFA' => $data[4],
-                    'IMPORTE' => $data[5],
-                    'TRAMO' => $data[6],
-                    'FECHA' => $formatedDateTime,
-                    'LATITUD' => $data[8],
-                    'LONGITUD' => $data[9],
-                ]);
-
-                try {
-                    $someData->save();
-                    $enters[] = $someData;
-                } catch (Exception $e) {
-                    $errorValues[] = $someData;
+            if ($skipHeaders) {
+                if ($data[0] === 'Evento') {
+                    $skipHeaders = false;
                 }
+                continue; // Skip header rows
+            }
+
+            if (is_null($data[0]))
+                break;
+
+            // Parsing the Date
+            $timestamp = PHPExcel_Shared_Date::ExcelToPHP($data[7]);
+            $formattedDate = date('Y-m-d', $timestamp);
+            $formattedTime = date('H:i', $timestamp);
+
+            $viajeData = [
+                'EVENTO' => $data[0],
+                'CUIL' => $data[1],
+                'TARJETA' => $data[2],
+                'CANTIDAD' => $data[3],
+                'TARIFA' => $data[4],
+                'IMPORTE' => $data[5],
+                'TRAMO' => $data[6],
+                'FECHA' => $formattedDate,
+                'HORA' => $formattedTime,
+                'LATITUD' => $data[8],
+                'LONGITUD' => $data[9],
+            ];
+
+            $bulkInsertData[] = $viajeData;
+
+            if (count($bulkInsertData) >= $batchSize) {
+                try {
+                    Viaje::insert($bulkInsertData);
+                } catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+
+                $bulkInsertData = [];
+            }
+
+        }
+        // Insert any remaining data in the bulk insert array
+        if (!empty($bulkInsertData)) {
+            try {
+                Viaje::insert($bulkInsertData);
+            } catch (Exception $e) {
+                return redirect()->back()->with('error', $e->getMessage());
             }
         }
-        if (count($errorValues) > 0) {
-            return redirect()->back()->with('error', $errorValues);
-        }
-
-        return redirect()->back()->with('answer', 'File uploaded and saved successfully.');
+        return redirect()->back()->with('answer', 'Los registros fueron subidos correctamente!');
     }
 
     /**

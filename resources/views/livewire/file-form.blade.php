@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create') }}
+            {{ __('Carga') }}
         </h2>
     </x-slot>
 
@@ -37,30 +37,30 @@
                         </label>
                     </div>
 
+
                     <p id="uploadedFileName" class="text-center text-gray-500 dark:text-gray-400"></p>
+
+                    <div hidden id="cargando" style="color: rgba(93, 0, 255, 0.579)"
+                        class="text-center ease-in-out duration-300 mt-8 text-info-500">Cargando los registros por favor
+                        espere (tiempo estimado 1 min cada 812 registros)</div>
 
                     @error('insertedExel')
                         <div class="ease-in-out duration-300 mt-8 text-red-500">{{ $message }}</div>
                     @enderror
 
                     @if (session('answer'))
-
-                        <div class="mt-8 bg-green-400 border-emerald-600">
-                            {{ session('answer') }}
-                        </div>
+                        <div class="ease-in-out duration-300 mt-8 text-green-600">{{ session('answer') }}</div>
                     @elseif (session('error'))
                         <div>
-                            <h2>Error en los registros</h2>
-                            @foreach (session('error') as $err)
-                                <p>{{ $err->FECHA }}</p>
-                            @endforeach
+                            <h2>{{ session('error') }}</h2>
+
                         </div>
                     @else
                         <br>
                     @endif
 
                     <div class="mt-5">
-                        <x-button disabled="true" id="cargarButton" type="submit"
+                        <x-button disabled="false" id="cargarButton" type="submit"
                             class="block h-12 w-auto">Cargar</x-button>
 
                         <a href="/dashboard">
