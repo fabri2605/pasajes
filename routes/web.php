@@ -33,12 +33,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/viajes', [ViajeController::class, 'index'])
         ->name('viaje.index');
 
-    Route::post('/viaje', [ViajeController::class, 'store'])
+    Route::post('/viajes', [ViajeController::class, 'store'])
         ->name('viaje.store');
 
-    Route::get('/viaje/create', [ViajeController::class, 'create'])
+    Route::get('/viajes/calculos', [ViajeController::class, 'showCalculus'])
         ->name('viaje.create');
 
-    Route::get('/viaje/{id}', [ViajeController::class, 'show'])
+    Route::get('/viajes/create', [ViajeController::class, 'create'])
+        ->name('viaje.create');
+
+    Route::get('/viajes/{id}', [ViajeController::class, 'show'])
         ->name('viaje.show');
 });

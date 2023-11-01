@@ -19,57 +19,63 @@
         </form>
         <div style="margin: 0 20px;" class="mx-auto {{-- max-w-7xl  sm:px-6 lg:px-8 --}}">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="{{-- mt-8 --}} pb-3">
+                <div class="mt-8 pb-3">
 
                     @if (count($viajes))
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-6">
-                                        Evento
+                                    <th scope="col" class="px-6 py-3">
+                                        Viajes Vendidos
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Cuil
+                                    <th scope="col" class="px-6 py-3">
+                                        Viajes Saldo
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Tarjeta
+                                    <th scope="col" class="px-6 py-3">
+                                        A tomar MAX46
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Cantidad
+                                    <th scope="col" class="px-6 py-3">
+                                        Fecha de Vta
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Tarifa
+                                    <th scope="col" class="px-6 py-3">
+                                        Doc/Emp
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Importe
-                                    </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Tramo
-                                    </th>
-                                    <th scope="col" class="px-6 py-6">
+                                    <th scope="col" class="px-6 py-3">
                                         Fecha
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Hora
+                                    <th scope="col" class="px-6 py-3">
+                                        Cantidad 2
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Latitud
+                                    <th scope="col" class="px-6 py-3">
+                                        Cant de Viajes
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Longitud
+                                    <th scope="col" class="px-6 py-3">
+                                        Viajes Netos
                                     </th>
-                                    <th scope="col" class="px-6 py-6">
-                                        Actions
+                                    <th scope="col" class="px-6 py-3">
+                                        Viajes a Tomar
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Reintegro
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Ley Anterior
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        S/N Reintegrar
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        A Reintegrar
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($viajes as $viaje)
-                                    <tr style="background-color: {{ $viaje->color }}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                         <th scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $viaje->EVENTO }}
+                                            {{ $viaje->docEmp }}
                                         </th>
                                         <td class="px-6 py-4">
                                             {{ $viaje->CUIL }}
@@ -101,10 +107,9 @@
                                         <td class="px-6 py-4">
                                             {{ $viaje->LONGITUD }}
                                         </td>
-                                        <td style="display: flex; align-items: center;
-                                         justify-content: center" class="px-6 py-2">
-                                            <form method="post"
-                                                action="{{ route('viaje.index') }}">
+                                        <td>
+                                            <form class="mt-3" method="post"
+                                                action="{{ route('viaje.index' /* , $fileName */) }}">
                                                 @csrf
                                                 <x-button type="submit">ACTION</x-button>
                                             </form>

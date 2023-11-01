@@ -834,11 +834,11 @@
 
 <body class="antialiased">
 
-    @if (isset($data))
+    {{-- @if (isset($data))
         @livewire('show-files')
     @else
         @livewire('welcome')
-    @endif
+    @endif --}}
 
     @livewireScripts
 </body>

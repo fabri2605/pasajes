@@ -2,8 +2,9 @@
     <x-application-logo class="block h-12 w-auto" />
 
     <div class="mt-8">
-        <a href="{{route('viaje.create')}}"><x-button>Create Trips</x-button></a>
+        <a href="{{route('viaje.create')}}"><x-button>Save Trips</x-button></a>
         <a href="{{route('viaje.index')}}"><x-button>Show Trips</x-button></a>
+        <a href="{{route('viaje.index')}}"><x-button>Calculate</x-button></a>
     </div>
 
     <a href="/sarasa">
